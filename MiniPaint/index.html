@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Paint</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        #main{
+            width: 800px;
+            margin: auto;
+            padding-top: 20px;
+        }
+        #paleta{
+            width: 100%;
+            border: 2px solid red;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+        b{
+            margin-left: 50px;
+            font: 16px Verdana;
+        }
+        #canvas{
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <section id="main">
+        <section id="paleta">
+            <b>Cambiar color:</b>
+            <input onchange="Color(this)" type="color">
+            <b>Cambiar grosor:</b>
+            <input onchange="Linea(this)" type="number">
+            <input type="submit" value="Limpiar" onclick="Limpiar()">
+        </section>
+        <canvas id="canvas" width="800" height="500">
+            dedgecd
+        </canvas>
+    </section>
+</body>
+<script>
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    context.lineWidth = 5;
+    var con = false;
+    var x = 0, y = 0;
+
+    function dibujar(e) {
+        var x = e.clientX - canvas.offsetLeft;
+        var y = e.clientY - canvas.offsetTop;
+        if (con) {
+            context.lineTo(x, y);
+            context.stroke();
+        }
+    }
+
+    canvas.addEventListener('mousemove', dibujar);
+
+    canvas.addEventListener('mousedown', function(e) {
+        con = true;
+        x = e.clientX - canvas.offsetLeft;
+        y = e.clientY - canvas.offsetTop;
+        context.beginPath();
+        context.moveTo(x, y);
+    });
+
+    canvas.addEventListener('mouseup', function() {
+        con = false;
+        context.closePath();
+    });
+
+//==================================
+
+    function Color(valor)
+    {
+        context.strokeStyle = valor.value;
+    }
+
+//==================================
+
+    function Linea(valor)
+    {
+        context.lineWidth = valor.value;
+    }
+
+//==================================
+
+    function Limpiar()
+    {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+</script>
+</html>
